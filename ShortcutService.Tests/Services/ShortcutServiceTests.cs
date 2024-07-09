@@ -54,6 +54,9 @@ namespace ShortcutService.Tests.Services
         [Fact]
         public void GetShortcutsByCategory_ReturnsEmptyList_WhenCategoryDoesNotExist()
         {
+            // Clean up
+            _service.ClearShortcuts();
+            
             // Act
             var result = _service.GetShortcutsByCategory("nonexistent");
 
