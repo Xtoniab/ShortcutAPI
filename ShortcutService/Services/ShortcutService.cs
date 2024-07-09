@@ -7,6 +7,7 @@ public interface IShortcutService
     bool AddShortcut(Shortcut shortcut);
     bool DeleteShortcut(ShortcutBinding binding);
     IEnumerable<Shortcut> GetShortcutsByCategory(string category);
+    void ClearShortcuts();
 }
 
 public class ShortcutService : IShortcutService
@@ -44,5 +45,10 @@ public class ShortcutService : IShortcutService
     public IEnumerable<Shortcut> GetShortcutsByCategory(string category)
     {
         return _shortcuts.Where(s => s.Path.Category == category);
+    }
+
+    public void ClearShortcuts()
+    {
+        _shortcuts.Clear();
     }
 }

@@ -38,6 +38,9 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
     [InlineData("Ctrl + Alt + Z", "Task Manager", "system.taskmanager")]
     public async Task AddShortcut_ReturnsOkResult_WhenShortcutIsValid(string binding, string description, string action)
     {
+        // Clean up
+        _shortcutService.ClearShortcuts();
+        
         // Arrange
         var shortcutDto = new ShortcutDto(binding, description, action);
 
@@ -48,9 +51,6 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
         response.EnsureSuccessStatusCode();
         var responseContent = await response.Content.ReadFromJsonAsync<AddResponse>();
         responseContent.Success.Should().BeTrue();
-        
-        // Cleanup
-        _shortcutService.DeleteShortcut(new ShortcutBinding(binding));
     }
 
     [Theory]
@@ -59,6 +59,9 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
     [InlineData("Ctrl + Shift + Z + W", "Too many keys", "browser.toomanykeys")]
     public async Task AddShortcut_ReturnsBadRequest_WhenShortcutIsInvalid(string binding, string description, string action)
     {
+        // Clean up
+        _shortcutService.ClearShortcuts();
+        
         // Arrange
         var invalidShortcutDto = new ShortcutDto(binding, description, action);
 
@@ -76,6 +79,9 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
     [InlineData("browser", "Ctrl + Shift + N", "Open new window", "newwindow")]
     public async Task GetShortcutsByCategory_ReturnsShortcuts_WhenCategoryExists(string category, string binding, string description, string actionName)
     {
+        // Clean up
+        _shortcutService.ClearShortcuts();
+        
         // Arrange
         var shortcutDto = new ShortcutDto(binding, description, $"{category}.{actionName}");
         await _client.PostAsJsonAsync("/Shortcuts/add", shortcutDto);
@@ -91,14 +97,14 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
             ActionName = actionName,
             Binding = binding
         });
-        
-        // Cleanup
-        _shortcutService.DeleteShortcut(new ShortcutBinding(binding));
     }
 
     [Fact]
     public async Task GetShortcutsByCategory_ReturnsEmpty_WhenCategoryDoesNotExist()
     {
+        // Clean up
+        _shortcutService.ClearShortcuts();
+        
         // Act
         var response = await _client.GetAsync("/Shortcuts/category/nonexistent");
 
@@ -111,6 +117,9 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
     [Fact]
     public async Task AddShortcut_ReturnsFalse_WhenShortcutAlreadyExists()
     {
+        // Clean up
+        _shortcutService.ClearShortcuts();
+        
         // Arrange
         var shortcutDto = new ShortcutDto("Ctrl + Shift + T", "Open new tab", "browser.newtab");
         await _client.PostAsJsonAsync("/Shortcuts/add", shortcutDto);
@@ -121,9 +130,6 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
         // Assert
         var responseContent = await response.Content.ReadFromJsonAsync<AddResponse>();
         responseContent.Success.Should().BeFalse();
-        
-        // Cleanup
-        _shortcutService.DeleteShortcut(new ShortcutBinding("Ctrl + Shift + T"));
     }
 
     [Theory]
@@ -131,6 +137,9 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
     [InlineData("Ctrl + T", "Fetch latest changes", "git.fetch")]
     public async Task AddShortcut_And_GetShortcutsByCategory(string binding, string description, string action)
     {
+        // Clean up
+        _shortcutService.ClearShortcuts();
+        
         // Arrange
         var shortcutDto = new ShortcutDto(binding, description, action);
         await _client.PostAsJsonAsync("/Shortcuts/add", shortcutDto);
@@ -146,8 +155,5 @@ public class ShortcutsControllerTests : IClassFixture<WebApplicationFactory<Star
             ActionName = action.Split('.')[1],
             Binding = binding
         });
-        
-        // Cleanup
-        _shortcutService.DeleteShortcut(new ShortcutBinding(binding));
     }
 }

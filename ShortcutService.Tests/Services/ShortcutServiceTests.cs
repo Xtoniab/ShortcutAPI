@@ -11,21 +11,16 @@ namespace ShortcutService.Tests.Services
 
         [Theory]
         [InlineData("Ctrl+Alt+S", "Save File", "file.save", true)]
-        [InlineData("Ctrl+Shift+S", "Save As File", "file.save", true)]
-        [InlineData("Ctrl+Alt+S", "Open File", "file.open", false)]
+        [InlineData("Ctrl+Shift+D", "Save As File", "file.save", true)]
+        [InlineData("Ctrl+Alt+S", "Open File", "file.open", true)]
         public void AddShortcut_ReturnsExpectedResult(string binding, string description, string path, bool expected)
         {
+            // Clean up
+            _service.ClearShortcuts();
+            
             // Arrange
             var shortcutDto = new ShortcutDto(binding, description, path);
             var shortcut = new Shortcut(shortcutDto);
-            
-            // Add a base shortcut to check against
-            if (binding != "Ctrl+Shift+S")
-            {
-                var baseShortcutDto = new ShortcutDto("Ctrl+Alt+S", "Base Shortcut", "file.save");
-                var baseShortcut = new Shortcut(baseShortcutDto);
-                _service.AddShortcut(baseShortcut);
-            }
 
             // Act
             var result = _service.AddShortcut(shortcut);
@@ -37,6 +32,9 @@ namespace ShortcutService.Tests.Services
         [Fact]
         public void GetShortcutsByCategory_ReturnsShortcuts()
         {
+            // Clean up
+            _service.ClearShortcuts();
+            
             // Arrange
             var shortcutDto1 = new ShortcutDto("Ctrl+Alt+S", "Save File", "file.save");
             var shortcut1 = new Shortcut(shortcutDto1);
@@ -68,6 +66,9 @@ namespace ShortcutService.Tests.Services
         [InlineData("Ctrl+T", "Ctrl + T")]
         public void ShortcutBinding_ParsesCorrectly(string binding, string expected)
         {
+            // Clean up
+            _service.ClearShortcuts();
+            
             // Arrange
             var shortcutDto = new ShortcutDto(binding, "Test Binding", "category.action");
             var shortcut = new Shortcut(shortcutDto);
@@ -84,6 +85,9 @@ namespace ShortcutService.Tests.Services
         [InlineData("Ctrl++A")]
         public void ShortcutBinding_ThrowsException_WithInvalidFormat(string binding)
         {
+            // Clean up
+            _service.ClearShortcuts();
+            
             // Arrange
             var shortcutDto = new ShortcutDto(binding, "Test Binding", "category.action");
 
