@@ -1,4 +1,5 @@
-﻿using ShortcutService.Models;
+﻿using System.Collections.Concurrent;
+using ShortcutService.Models;
 
 namespace ShortcutService.Services;
 
@@ -12,39 +13,26 @@ public interface IShortcutService
 
 public class ShortcutService : IShortcutService
 {
-    private readonly List<Shortcut> _shortcuts = [];
+    private readonly ConcurrentDictionary<ShortcutBinding, Shortcut> _shortcuts = [];
 
     public bool AddShortcut(Shortcut shortcut)
     {
-        foreach (var sc in _shortcuts)
+        if (!_shortcuts.TryAdd(shortcut.Binding, shortcut))
         {
-            if(sc.Binding.Equals(shortcut.Binding))
-            {
-                return false;
-            }
+            return false;
         }
-        
-        _shortcuts.Add(shortcut);
-        
+
         return true;
     }
 
     public bool DeleteShortcut(ShortcutBinding binding)
     {
-        var shortcut = _shortcuts.FirstOrDefault(s => s.Binding.Equals(binding));
-        
-        if (shortcut != null)
-        {
-            _shortcuts.Remove(shortcut);
-            return true;
-        }
-        
-        return false;
+        return _shortcuts.Remove(binding, out _);
     }
 
     public IEnumerable<Shortcut> GetShortcutsByCategory(string category)
     {
-        return _shortcuts.Where(s => s.Path.Category == category);
+        return _shortcuts.Values.Where(s => s.Path.Category == category);
     }
 
     public void ClearShortcuts()
