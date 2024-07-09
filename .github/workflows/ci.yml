@@ -1,12 +1,12 @@
-﻿name: Build & Test
+﻿name: Test & Build
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -21,15 +21,15 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore ShortcutService/ShortcutService.csproj
-
-      - name: Build
-        run: dotnet build ShortcutService/ShortcutService.csproj --configuration Release --no-restore
-
+          
       - name: Run unit tests
-        run: dotnet test ShortcutService.Tests/ShortcutService.Tests.csproj --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal ShortcutService.Tests/ShortcutService.Tests.csproj
 
       - name: Run integration tests
-        run: dotnet test ShortcutService.IntegrationTests/ShortcutService.IntegrationTests.csproj --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal ShortcutService.IntegrationTests/ShortcutService.IntegrationTests.csproj
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
