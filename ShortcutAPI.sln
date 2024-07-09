@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortcutService", "ShortcutService\ShortcutService.csproj", "{460A0B7B-7ADA-44CE-828C-561FD66219B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortcutService.Tests", "ShortcutService.Tests\ShortcutService.Tests.csproj", "{67D4999C-0156-45FC-8417-5AE4D5A9BD8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortcutService.IntegrationTests", "ShortcutService.IntegrationTests\ShortcutService.IntegrationTests.csproj", "{6A05A860-0210-42C7-AA0D-201EC3B3E71A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{460A0B7B-7ADA-44CE-828C-561FD66219B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{460A0B7B-7ADA-44CE-828C-561FD66219B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{460A0B7B-7ADA-44CE-828C-561FD66219B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{460A0B7B-7ADA-44CE-828C-561FD66219B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D4999C-0156-45FC-8417-5AE4D5A9BD8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D4999C-0156-45FC-8417-5AE4D5A9BD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D4999C-0156-45FC-8417-5AE4D5A9BD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D4999C-0156-45FC-8417-5AE4D5A9BD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A05A860-0210-42C7-AA0D-201EC3B3E71A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A05A860-0210-42C7-AA0D-201EC3B3E71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A05A860-0210-42C7-AA0D-201EC3B3E71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A05A860-0210-42C7-AA0D-201EC3B3E71A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
